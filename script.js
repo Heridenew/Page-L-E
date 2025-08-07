@@ -1,10 +1,11 @@
+// LINKS DAS IMAGENS (substitua pelos IDs reais do Google Drive)
 const imagens = [
-  // Substitua pelos seus links de imagem do Google Drive
   "https://drive.google.com/uc?id=IMAGEM_ID_1",
   "https://drive.google.com/uc?id=IMAGEM_ID_2",
   "https://drive.google.com/uc?id=IMAGEM_ID_3"
 ];
 
+// Galeria
 const galeria = document.getElementById("galeria");
 
 imagens.forEach((url, index) => {
@@ -16,20 +17,19 @@ imagens.forEach((url, index) => {
   const img = document.createElement("img");
   img.src = url;
   img.alt = `Foto ${index + 1}`;
-
   img.onload = () => img.classList.add("loaded");
 
   a.appendChild(img);
   galeria.appendChild(a);
 });
 
-// Alternar tema
+// Alternância de tema (claro/escuro)
 const toggleBtn = document.getElementById("toggleTheme");
 toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Relógio desde 17 de agosto de 2024 às 12h
+// Relógio desde 17/08/2024 às 12h
 const contador = document.getElementById("contador");
 const inicio = new Date("2024-08-17T12:00:00").getTime();
 

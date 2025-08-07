@@ -3,12 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>L&E - Nossa Galeria</title>
+  <title>L & E - Nossa Galeria</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Lightbox CSS (para ampliar imagens ao clicar) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" />
 </head>
 <body>
-  <h1>🌸 L&E: Nossa Galeria 🌸</h1>
-  <div class="galeria" id="galeria"></div>
+  <header>
+    <h1>🌸 L & E - Juntos desde 17/08/2024 🌸</h1>
+    <p id="contador"></p>
+    <button id="toggleTheme">Alternar tema</button>
+  </header>
+
+  <main>
+    <div class="galeria" id="galeria"></div>
+  </main>
+
+  <!-- JavaScript -->
   <script src="script.js"></script>
+
+  <!-- Lightbox JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 </body>
 </html>
