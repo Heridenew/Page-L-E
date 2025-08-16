@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>L & E - Nossa Galeria de fotos</title>
+
+<style>
+  :root {
+    --bg-light: #121d33;
+    --text-light: #cbd6e8;
+    --accent: #1e90ff;
+    --accent-hover: #63b3ff;
+    --button-bg: #16375b;
+    --button-hover-bg: #1e5aff;
+    --button-border: #1e90ff;
+    --shadow-color: rgba(30, 144, 255, 0.6);
+    --font-rock: 'Anton', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-rock);
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    margin: 0;
+    text-align: center;
+  }
+
+  header {
+    padding: 20px;
+    text-shadow: 2px 2px 5px var(--shadow-color);
+  }
+
+  .botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  button {
+    font-family: var(--font-rock);
+    padding: 10px 20px;
+    background-color: var(--button-bg);
+    color: var(--accent);
+    border: 2px solid var(--button-border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+
+  button:hover {
+    background-color: var(--button-hover-bg);
+    color: white;
+    box-shadow: 0 0 15px var(--accent-hover);
+  }
+
+  #contador {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: var(--accent);
+  }
+
+  #galeria {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 20px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #galeria::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #galeria::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+  }
+
+  #galeria img,
+  #galeria video {
+    flex: 0 0 auto;
+    width: 250px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px var(--shadow-color);
+    border: 2px solid var(--button-border);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  #galeria img.loaded,
+  #galeria video.loaded {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  #galeria img:hover,
+  #galeria video:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--accent-hover);
+  }
+
+  .carrossel-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+</style>
+</head>
+
+<body>
+<header>
+  <h1>🤘🏻 Galeria L & E 🤘🏿</h1>
+  <p id="contador">0 anos, 0 meses, 0 dias, 0h 0m 0s</p>
+  <div class="botoes">
+    <button id="togglePersp">Mudar Perspectiva</button>
+  </div>
+</header>
+
+<main>
+  <div class="carrossel-buttons">
+    <button id="prevBtn">⬅</button>
+    <button id="nextBtn">➡</button>
+  </div>
+  <div id="galeria" tabindex="0" aria-label="Galeria de fotos"></div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // --- GALERIA ---
+  const midias = [ "midia/midia1.jpg", "midia/midia10.jpg", "midia/midia11.jpg", "midia/midia12.jpg", "midia/midia13.jpg", "midia/midia14.jpg", "midia/midia15.mp4", "midia/midia17.jpg", "midia/midia18.jpg", "midia/midia19.jpg", "midia/midia2.mp4", "midia/midia20.jpg", "midia/midia21.jpg", "midia/midia22.jpg", "midia/midia23.jpg", "midia/midia24.jpg", "midia/midia25.jpg", "midia/midia26.jpg", "midia/midia27.jpg", "midia/midia28.jpg", "midia/midia29.jpg", "midia/midia30.jpg", "midia/midia31.jpg", "midia/midia32.jpg", "midia/midia33.jpg", "midia/midia34.jpg", "midia/midia35.jpg", "midia/midia36.jpg", "midia/midia37.jpg", "midia/midia38.jpg", "midia/midia39.jpg", "midia/midia4.jpg", "midia/midia40.jpg", "midia/midia41.jpg", "midia/midia42.jpg", "midia/midia43.jpg", "midia/midia44.jpg", "midia/midia45.jpg", "midia/midia46.jpg", "midia/midia47.jpg", "midia/midia48.jpg", "midia/midia49.jpg", "midia/midia5.jpg", "midia/midia50.jpg", "midia/midia51.jpg", "midia/midia52.jpg", "midia/midia53.jpg", "midia/midia54.jpg", "midia/midia55.jpg", "midia/midia56.jpg", "midia/midia57.jpg", "midia/midia58.jpg", "midia/midia59.jpg", "midia/midia6.jpg", "midia/midia60.jpg", "midia/midia61.jpg", "midia/midia62.jpg", "midia/midia63.jpg", "midia/midia64.jpg", "midia/midia65.jpg", "midia/midia66.jpg", "midia/midia67.jpg", "midia/midia68.jpg", "midia/midia69.jpg", "midia/midia7.jpg", "midia/midia70.jpg", "midia/midia71.jpg", "midia/midia72.jpg", "midia/midia73.jpg", "midia/midia74.jpg", "midia/midia75.JPG", "midia/midia76.JPG", "midia/midia77.jpg", "midia/midia78.jpg", "midia/midia79.jpg", "midia/midia8.jpg", "midia/midia80.jpg", "midia/midia81.jpg", "midia/midia82.jpg", "midia/midia83.jpg", "midia/midia84.jpg", "midia/midia85.jpg", "midia/midia9.jpg" ];
+
+  const galeria = document.getElementById("galeria");
+  let midiaAtual = 0;
+
+  function mostrarMidia() {
+    galeria.innerHTML = "";
+    const src = encodeURI(midias[midiaAtual]);
+    let elemento;
+
+    if (src.match(/\.(mp4|webm|ogg)$/i)) {
+      elemento = document.createElement("video");
+      elemento.src = src;
+      elemento.controls = true;
+      elemento.width = 250;
+      elemento.classList.add("loaded");
+    } else if (src.match(/\.(jpe?g|png|webp|gif)$/i)) {
+      elemento = document.createElement("img");
+      elemento.src = src;
+      elemento.alt = `Mídia ${midiaAtual + 1}`;
+      elemento.onload = () => elemento.classList.add("loaded");
+    }
+    galeria.appendChild(elemento);
+  }
+
+  function proxima() {
+    midiaAtual = (midiaAtual + 1) % midias.length;
+    mostrarMidia();
+  }
+
+  function anterior() {
+    midiaAtual = (midiaAtual - 1 + midias.length) % midias.length;
+    mostrarMidia();
+  }
+
+  document.getElementById("prevBtn").addEventListener("click", anterior);
+  document.getElementById("nextBtn").addEventListener("click", proxima);
+
+  // Suporte scroll/carrossel arrastável
+  let isDown = false, startX, scrollLeft;
+  galeria.addEventListener('mousedown', (e) => {
+    isDown = true;
+    galeria.classList.add('active');
+    startX = e.pageX - galeria.offsetLeft;
+    scrollLeft = galeria.scrollLeft;
+  });
+  galeria.addEventListener('mouseleave', () => isDown = false);
+  galeria.addEventListener('mouseup', () => isDown = false);
+  galeria.addEventListener('mousemove', (e) => {
+    if(!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - galeria.offsetLeft;
+    const walk = (x - startX) * 2; // velocidade
+    galeria.scrollLeft = scrollLeft - walk;
+  });
+
+  mostrarMidia();
+
+  // --- CONTADOR COM PERSPECTIVAS ---
+  const contadorEl = document.getElementById("contador");
+  const toggleBtn = document.getElementById("togglePersp");
+  const inicio = new Date("2024-08-17T00:00:00");
+
+  const estados = [
+    { nome: "Leitura Humana", func: diffHuman },
+    { nome: "Leitura de Anos", func: diffAnos },
+    { nome: "Leitura de Meses", func: diffMeses },
+    { nome: "Leitura de Dias", func: diffDias },
+    { nome: "Leitura de Horas", func: diffHoras },
+    { nome: "Leitura de Minutos", func: diffMinutos },
+    { nome: "Leitura de Segundos", func: diffSegundos }
+  ];
+
+  let estadoAtual = 0;
+
+  function atualizarContador() {
+    const agora = new Date();
+    const diffMs = agora - inicio;
+    contadorEl.textContent = estados[estadoAtual].func(diffMs);
+  }
+
+  // --- FUNÇÕES DE DIFERENÇA ---
+  function diffHuman(diffMs) {
+    const agora = new Date();
+    let anos = agora.getFullYear() - inicio.getFullYear();
+    let meses = agora.getMonth() - inicio.getMonth();
+    let dias = agora.getDate() - inicio.getDate();
+    let horas = agora.getHours() - inicio.getHours();
+    let minutos = agora.getMinutes() - inicio.getMinutes();
+    let segundos = agora.getSeconds() - inicio.getSeconds();
+
+    if(segundos<0){minutos--;segundos+=60;}
+    if(minutos<0){horas--;minutos+=60;}
+    if(horas<0){dias--;horas+=24;}
+    if(dias<0){meses--;dias+=new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();}
+    if(meses<0){anos--;meses+=12;}
+
+    return `${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas ${minutos} minutos e ${segundos} segundos.`;
+  }
+
+  function diffAnos(diffMs){
+    const agora = new Date();
+    let anos = agora.getFullYear() - inicio.getFullYear();
+    let meses = agora.getMonth() - inicio.getMonth();
+    let dias = agora.getDate() - inicio.getDate();
+    if(dias<0){meses--;}
+    if(meses<0){anos--;meses+=12;}
+    const anosDec = (anos + meses/12 + dias/365).toFixed(2);
+    return `${anosDec} anos`;
+  }
+
+  function diffMeses(diffMs){
+    const agora = new Date();
+    let anos = agora.getFullYear() - inicio.getFullYear();
+    let meses = agora.getMonth() - inicio.getMonth();
+    let dias = agora.getDate() - inicio.getDate();
+    if(dias<0){meses--;}
+    if(meses<0){anos--;meses+=12;}
+    return `${anos*12 + meses} meses`;
+  }
+
+  function diffDias(diffMs){
+    return `${Math.floor(diffMs/(1000*60*60*24))} dias`;
+  }
+  function diffHoras(diffMs){
+    return `${Math.floor(diffMs/(1000*60*60))} horas`;
+  }
+  function diffMinutos(diffMs){
+    return `${Math.floor(diffMs/(1000*60))} minutos`;
+  }
+  function diffSegundos(diffMs){
+    return `${Math.floor(diffMs/1000)} segundos`;
+  }
+
+  toggleBtn.addEventListener("click", ()=>{
+    estadoAtual = (estadoAtual+1)%estados.length;
+    atualizarContador();
+  });
+
+  setInterval(atualizarContador,1000);
+});
+</script>
+</body>
+</html>
